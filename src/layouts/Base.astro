@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+import { site } from '../data.js';
+
+// bare: no page container, for full-bleed pages like the map.
+const { title = `${site.name}, ${site.title}`, description = site.description, bare = false } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<meta name="description" content={description}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:type" content="website">
+<meta property="og:image" content="/photo.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#07080a">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script is:inline>document.documentElement.classList.add('js')</script>
+</head>
+<body class="grain">
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-gold focus:px-4 focus:py-2 focus:text-bg">Skip to content</a>
+<main id="main" class:list={[!bare && 'mx-auto max-w-[1400px] px-4 py-4 sm:px-6 sm:py-6']}>
+  <slot />
+</main>
+
+<script>
+  // Reveal on scroll. Direction comes from where the panel sits: left third rolls in from the left, right third from the right.
+  const reveal = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      const el = e.target as HTMLElement;
+      const r = el.getBoundingClientRect();
+      const center = (r.left + r.width / 2) / innerWidth;
+      el.style.setProperty('--dir', r.width > innerWidth * 0.7 ? '0' : center < 0.4 ? '-1' : center > 0.6 ? '1' : '0');
+      el.querySelectorAll<HTMLElement>('[data-roll]').forEach((c, k) => c.style.setProperty('--k', String(k)));
+      el.classList.add('in');
+      reveal.unobserve(el);
+    }
+  }, { threshold: 0.1 });
+  document.querySelectorAll('[data-reveal]').forEach(el => reveal.observe(el));
+</script>
+</body>
+</html>

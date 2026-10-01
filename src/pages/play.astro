@@ -1,0 +1,173 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Snake, Tejas Gaware" description="Snake. Eat the meat, don't hit yourself.">
+  <section class="grid min-h-[100dvh] gap-12 pt-28 pb-16 md:grid-cols-12 md:items-center">
+    <div class="md:col-span-5">
+      <a href="/" class="inline-flex items-center gap-2 text-sm text-muted hover:text-fg"><Icon name="arrow-left" />Back to portfolio</a>
+      <h1 class="mt-6 text-5xl font-semibold tracking-tighter sm:text-6xl">Snake</h1>
+      <p class="mt-4 max-w-[40ch] leading-relaxed text-body">Eat the meat, don't run into yourself. Walls wrap around. It speeds up as you grow.</p>
+      <dl class="mt-8 grid max-w-xs grid-cols-2 gap-4">
+        <div class="rounded-2xl border border-line p-4"><dt class="text-xs text-muted">Score</dt><dd id="score" class="mt-1 font-mono text-3xl tabular-nums">0</dd></div>
+        <div class="rounded-2xl border border-line p-4"><dt class="text-xs text-muted">Best</dt><dd id="best" class="mt-1 font-mono text-3xl tabular-nums text-gold">0</dd></div>
+      </dl>
+      <p class="mt-8 hidden text-sm text-muted md:block">
+        <kbd class="rounded-md border border-line bg-tile px-1.5 py-0.5 font-mono text-xs">Arrows</kbd> or <kbd class="rounded-md border border-line bg-tile px-1.5 py-0.5 font-mono text-xs">WASD</kbd> to move, <kbd class="rounded-md border border-line bg-tile px-1.5 py-0.5 font-mono text-xs">Space</kbd> to pause.
+      </p>
+    </div>
+
+    <div class="md:col-span-7">
+      <div class="mx-auto max-w-[480px] panel p-1.5">
+        <div class="relative overflow-hidden rounded-[1.25rem]">
+          <canvas id="board" width="400" height="400" aria-label="Snake game board" class="block aspect-square w-full touch-none"></canvas>
+          <button id="overlay" class="absolute inset-0 grid place-items-center bg-bg/70 text-sm font-medium backdrop-blur-sm [&[hidden]]:hidden">
+            <span class="inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 text-bg"><Icon name="play" /><span id="overlay-text">Start game</span></span>
+          </button>
+        </div>
+      </div>
+      <div class="pad mx-auto mt-6 hidden w-max grid-cols-3 gap-2 [@media(pointer:coarse)]:grid" aria-label="Controls">
+        <span></span><button data-dir="up" aria-label="Up" class="pad-btn"><Icon name="caret-up" class="size-5" /></button><span></span>
+        <button data-dir="left" aria-label="Left" class="pad-btn"><Icon name="caret-left" class="size-5" /></button>
+        <button data-dir="down" aria-label="Down" class="pad-btn"><Icon name="caret-down" class="size-5" /></button>
+        <button data-dir="right" aria-label="Right" class="pad-btn"><Icon name="caret-right" class="size-5" /></button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  @reference '../styles/global.css';
+  .pad-btn { @apply grid size-14 place-items-center rounded-2xl border border-line bg-tile text-fg active:scale-95 active:bg-gold active:text-bg; }
+</style>
+
+<script>
+  const N = 20;               // grid cells per side
+  const C = 400 / N;          // cell size in canvas px
+  const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  const KEYS = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right', w: 'up', s: 'down', a: 'left', d: 'right' };
+
+  const canvas = document.getElementById('board');
+  const ctx = canvas.getContext('2d');
+  const overlay = document.getElementById('overlay');
+  const overlayText = document.getElementById('overlay-text');
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const scoreEl = document.getElementById('score');
+  const bestEl = document.getElementById('best');
+
+  let best = 0;
+  try { best = Number(localStorage.getItem('snake-best')) || 0; } catch {}
+  bestEl.textContent = best;
+
+  let snake, dir, queue, food, score, timer, running = false;
+
+  function reset() {
+    snake = [[10, 10], [9, 10], [8, 10]];
+    dir = DIRS.right;
+    queue = [];
+    score = 0;
+    scoreEl.textContent = 0;
+    placeFood();
+  }
+
+  function placeFood() {
+    // ponytail: rejection sampling, slows only when the board is nearly full
+    do food = [Math.floor(Math.random() * N), Math.floor(Math.random() * N)];
+    while (snake.some(([x, y]) => x === food[0] && y === food[1]));
+  }
+
+  function turn(name) {
+    const d = DIRS[name];
+    const last = queue.at(-1) ?? dir;
+    if (d[0] === -last[0] && d[1] === -last[1]) return; // no reversing into yourself
+    if (queue.length < 2) queue.push(d);
+    if (!running) start();
+  }
+
+  function step() {
+    if (queue.length) dir = queue.shift();
+    const head = [(snake[0][0] + dir[0] + N) % N, (snake[0][1] + dir[1] + N) % N]; // walls wrap
+    const ate = head[0] === food[0] && head[1] === food[1];
+    const body = ate ? snake : snake.slice(0, -1); // tail moves away unless we grew
+    if (body.some(([x, y]) => x === head[0] && y === head[1])) return gameOver();
+    snake = [head, ...body];
+    if (ate) {
+      scoreEl.textContent = ++score;
+      placeFood();
+      clearInterval(timer);
+      timer = setInterval(step, speed());
+    }
+    draw();
+  }
+
+  const speed = () => Math.max(60, 140 - score * 3);
+
+  function draw() {
+    ctx.fillStyle = css('--color-tile');
+    ctx.fillRect(0, 0, 400, 400);
+    snake.forEach(([x, y], i) => {
+      ctx.fillStyle = css('--color-gold');
+      ctx.globalAlpha = i === 0 ? 1 : Math.max(0.35, 0.85 - i * 0.02);
+      ctx.beginPath();
+      ctx.roundRect(x * C + 1, y * C + 1, C - 2, C - 2, 4);
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    ctx.font = `${C - 2}px serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🍖', food[0] * C + C / 2, food[1] * C + C / 2 + 1);
+  }
+
+  function start() {
+    if (running) return;
+    if (!snake || overlay.dataset.over) { reset(); delete overlay.dataset.over; }
+    running = true;
+    overlay.hidden = true;
+    timer = setInterval(step, speed());
+  }
+
+  function pause() {
+    if (!running) return start();
+    running = false;
+    clearInterval(timer);
+    overlayText.textContent = 'Paused, press to resume';
+    overlay.hidden = false;
+  }
+
+  function gameOver() {
+    running = false;
+    clearInterval(timer);
+    if (score > best) {
+      best = score;
+      bestEl.textContent = best;
+      try { localStorage.setItem('snake-best', best); } catch {}
+    }
+    overlay.dataset.over = '1';
+    overlayText.textContent = `Game over at ${score}. Play again`;
+    overlay.hidden = false;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === ' ') { e.preventDefault(); return pause(); }
+    const name = KEYS[e.key] ?? KEYS[e.key.toLowerCase?.()];
+    if (name) { e.preventDefault(); turn(name); }
+  });
+
+  overlay.addEventListener('click', start);
+  document.querySelectorAll('.pad button').forEach(b => b.addEventListener('click', () => turn(b.dataset.dir)));
+
+  let touch;
+  canvas.addEventListener('touchstart', e => { touch = e.touches[0]; }, { passive: true });
+  canvas.addEventListener('touchend', e => {
+    if (!touch) return;
+    const dx = e.changedTouches[0].clientX - touch.clientX;
+    const dy = e.changedTouches[0].clientY - touch.clientY;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) > 20) turn(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'));
+    touch = null;
+  });
+
+  reset();
+  draw();
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>

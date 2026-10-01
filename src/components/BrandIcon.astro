@@ -1,0 +1,11 @@
+---
+// Tech logos from simple-icons, rendered inline at build time (no external requests).
+import * as si from 'simple-icons';
+const { slug, class: cls = 'size-6' } = Astro.props;
+const icon = si[`si${slug[0].toUpperCase()}${slug.slice(1)}`];
+if (!icon) throw new Error(`Unknown brand icon: ${slug}`);
+// Near-black brand colors vanish on the dark panels, so fall back to the text color.
+const [r, g, b] = [0, 2, 4].map(i => parseInt(icon.hex.slice(i, i + 2), 16));
+const color = 0.2126 * r + 0.7152 * g + 0.0722 * b < 60 ? 'var(--color-fg)' : `#${icon.hex}`;
+---
+<svg viewBox="0 0 24 24" class={cls} fill={color} role="img" aria-label={icon.title}><path d={icon.path} /></svg>

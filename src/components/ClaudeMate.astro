@@ -1,0 +1,141 @@
+---
+// "First mate" pixel critter in Claude orange. An original drawing inspired by the Claude Code
+// welcome-screen mascot, not official Anthropic artwork. Place inside a positioned, overflow-hidden panel:
+// it peeks up from the panel's bottom edge.
+---
+<div class="mate" data-state="hidden">
+  <button type="button" class="mate-btn" aria-label="Claude, my first mate. Say hi" aria-expanded="false">
+  <svg class="mate-body" viewBox="0 0 11 6" shape-rendering="crispEdges" aria-hidden="true">
+    <g fill="#d97757">
+      <rect x="2" y="0" width="7" height="5" />
+      <rect class="arm arm-l" x="0" y="2" width="2" height="1" />
+      <rect class="arm arm-r" x="9" y="2" width="2" height="1" />
+      <rect x="2" y="5" width="1" height="1" /><rect x="4" y="5" width="1" height="1" />
+      <rect x="6" y="5" width="1" height="1" /><rect x="8" y="5" width="1" height="1" />
+    </g>
+    <g class="eyes" fill="#1a1110">
+      <rect x="3" y="1" width="1" height="1.2" />
+      <rect x="7" y="1" width="1" height="1.2" />
+    </g>
+  </svg>
+  </button>
+  <p class="mate-bubble">
+    Ahoy! Would you like to play some games?
+    <a href="/play" class="mate-link">Play Snake <span aria-hidden="true">&rarr;</span></a>
+  </p>
+</div>
+
+<script>
+  // Idle loop: hidden -> peek (look around, blink) -> hidden. Every 4th beat (starting with the first)
+  // it climbs out on its own and asks to play. Hover, focus or tap brings it out on demand.
+  document.querySelectorAll<HTMLElement>('.mate').forEach(mate => {
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const btn = mate.querySelector('button')!;
+    const rest = still ? 'peek' : 'hidden';
+    let held = false; // visitor is interacting: never auto-hide under them
+    let onScreen = false;
+    let beat = 0;
+    let leaveTimer: ReturnType<typeof setTimeout>;
+    let nextTimer: ReturnType<typeof setTimeout>; // one pending auto-transition at a time
+
+    const set = (s: string) => { clearTimeout(nextTimer); mate.dataset.state = s; btn.setAttribute('aria-expanded', String(s === 'out')); };
+    const later = (ms: number, s: string) => { nextTimer = setTimeout(() => { if (!held) set(s); }, ms); };
+
+    const tick = () => {
+      if (held || !onScreen || mate.dataset.state === 'out') return;
+      if (beat++ % 4 === 0) { set('out'); later(6000, rest); return; }
+      if (!still) { set('peek'); later(3600, 'hidden'); }
+    };
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }).observe(mate);
+    setTimeout(tick, 2500); // first greeting once the panel has rolled in
+    setInterval(tick, 7500);
+
+    const out = () => { clearTimeout(leaveTimer); held = true; set('out'); };
+    const back = () => { held = false; set(rest); };
+    // Short grace period so the pointer can travel from the critter to the bubble link.
+    mate.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') out(); });
+    mate.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') leaveTimer = setTimeout(back, 450); });
+    mate.addEventListener('focusin', out);
+    mate.addEventListener('focusout', e => { if (!mate.contains(e.relatedTarget as Node)) back(); });
+    btn.addEventListener('click', () => (mate.dataset.state === 'out' && held ? back() : out()));
+  });
+</script>
+
+<style>
+  .mate {
+    position: absolute;
+    right: 1.75rem;
+    bottom: 0;
+    width: 66px;
+    height: 36px;
+  }
+  .mate-btn { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+  .mate-btn:focus-visible { outline-offset: 6px; }
+  .mate-body {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform: translateY(105%);
+    transition: transform 0.7s var(--ease-bounce);
+  }
+  .mate[data-state=peek] .mate-body { transform: translateY(45%); }
+  .mate[data-state=out] .mate-body { transform: translateY(0); }
+
+  /* Look left, look right, blink: plays each time it peeks. */
+  .eyes { transition: transform 0.3s var(--ease-spring); }
+  .mate[data-state=peek] .eyes { animation: look 3s var(--ease-spring) 0.5s both; }
+  .eyes rect { transform-box: fill-box; transform-origin: center; }
+  .mate[data-state=peek] .eyes rect { animation: blink 3s linear 0.5s both; }
+  @keyframes look {
+    0%, 8% { transform: none; }
+    15%, 35% { transform: translateX(-0.7px); }
+    45%, 65% { transform: translateX(0.7px); }
+    75%, 100% { transform: none; }
+  }
+  @keyframes blink { 0%, 80%, 86%, 100% { transform: none; } 83% { transform: scaleY(0.15); } }
+
+  /* Out: wave and talk. */
+  .arm { transform-box: fill-box; }
+  .arm-r { transform-origin: left center; }
+  .mate[data-state=out] .arm-r { animation: wave 0.6s ease-in-out 0.3s 3 alternate; }
+  @keyframes wave { to { transform: rotate(-55deg); } }
+
+  .mate-bubble {
+    position: absolute;
+    right: -0.25rem;
+    bottom: calc(100% + 0.6rem);
+    width: max-content;
+    max-width: 12rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 1rem 1rem 0.25rem 1rem;
+    background: #d97757;
+    color: #1a1110;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(6px) scale(0.95);
+    transform-origin: bottom right;
+    transition: opacity 0.25s, transform 0.4s var(--ease-bounce), visibility 0.25s;
+    visibility: hidden;
+  }
+  .mate[data-state=out] .mate-bubble {
+    opacity: 1; transform: none; visibility: visible;
+    transition: opacity 0.25s 0.25s, transform 0.4s var(--ease-bounce) 0.25s; /* visible at once so the link is focusable */
+  }
+  .mate-bubble::after { content: ''; position: absolute; inset: 100% 0 -0.75rem; } /* hover bridge down to the critter */
+  .mate-link {
+    display: inline-block;
+    margin-top: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    background: #1a1110;
+    color: #f2c4ae;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s var(--ease-bounce);
+  }
+  .mate-link:hover { transform: translateX(2px); }
+</style>
