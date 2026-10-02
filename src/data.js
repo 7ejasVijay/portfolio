@@ -56,9 +56,14 @@ export const featured = {
 
 export const projects = [
   {
-    name: 'Decentralized exchange',
-    desc: 'Upgraded the chain node from v1.1.0 to v1.18.0, set up the orderbook, and replaced AWS AppSync and Lambda with a Rust backend at lower cost.',
-    stack: ['Rust', 'AWS', 'Blockchain'],
+    id: 'polkadex',
+    name: 'Polkadex',
+    context: 'Wow Internet Labz, July 2025 - now',
+    tagline: 'A decentralized exchange with a real orderbook, built on Substrate.',
+    desc: 'Polkadex is a Layer 1 blockchain built for trading: CEX-grade speed, a real orderbook, and users keep their own keys. I work on the orderbook and the blockchain node underneath it.',
+    stack: ['Rust', 'Substrate', 'ISMP / Hyperbridge', 'GraphQL', 'PostgreSQL', 'TimescaleDB', 'AWS'],
+    image: '/projects/polkadex.webp',
+    imageAlt: 'The Polkadex Orderbook trading screen: price chart, live orderbook, recent trades and the buy/sell panel',
   },
   {
     name: 'Decentralized work marketplace',
@@ -81,9 +86,13 @@ export const projects = [
     stack: ['Web'],
   },
   {
-    name: 'Marathon face recognition',
-    desc: 'GoPro footage plus one-shot learning to identify registered runners at the Mumbai marathon in real time.',
-    stack: ['Python', 'Computer vision'],
+    id: 'face-recognition',
+    name: 'Live face recognition with a GoPro',
+    context: 'AI internship at SAIG, May 2019',
+    desc: 'Integrated a GoPro camera with a one-shot learning face-recognition model to recognise registered participants live at a women’s run in Mumbai, where 2,200 women ran 3 km through the city. One reference photo per person was enough to pick them out of the camera feed.',
+    stack: ['Python', 'Computer vision', 'One-shot learning', 'GoPro'],
+    image: '/projects/face-recognition.webp',
+    imageAlt: 'The system running on a group photo: each face boxed in red, with the name it recognised',
   },
 ];
 

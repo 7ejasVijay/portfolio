@@ -11,6 +11,8 @@ import * as si from 'simple-icons';
 import { site, experience, featured, projects, skills, education, interests, techGrid } from '../data.js';
 
 const work = [featured, ...projects];
+const faceRec = projects.find(p => p.id === 'face-recognition');
+const dex = projects.find(p => p.id === 'polkadex');
 const brandName = slug => si[`si${slug[0].toUpperCase()}${slug.slice(1)}`].title.replace('Parity ', '');
 const mostUsed = ['rust', 'tauri', 'typescript', 'svelte'];
 const stack = techGrid.slice(0, 9);
@@ -49,6 +51,12 @@ const equity = candles.map((c, i) => `${i ? 'L' : 'M'} ${c.x + 2} ${y(c.close) -
           <h1 class="mt-2 text-[2.6rem] leading-[1.02] font-extrabold tracking-tight text-[var(--accent)] sm:text-6xl">Building Products<br>End to End.</h1>
         </div>
 
+        <!-- Years of experience -->
+        <section data-reveal style="--i:1" class="area-years card flex items-center gap-4 self-end px-5 py-3 md:justify-self-end md:w-[calc(50%+0.45rem)]" aria-label="5+ years of experience">
+          <p class="years-num text-5xl leading-none font-extrabold tracking-tight text-[var(--accent)]">5+</p>
+          <p class="copy text-sm leading-snug font-medium text-[var(--text)]">years shipping<br><em>software</em></p>
+        </section>
+
         <!-- Contacts -->
         <section data-reveal style="--i:1" class="area-contact card p-5">
           <h2 class="label">Contacts</h2>
@@ -71,7 +79,7 @@ const equity = candles.map((c, i) => `${i ? 'L' : 'M'} ${c.x + 2} ${y(c.close) -
         <!-- About -->
         <section data-reveal class="area-about card relative flex flex-col p-5">
           <h2 class="label">About Me</h2>
-          <p class="hand mt-3 flex-1 text-[1.35rem] leading-[1.15] text-[var(--text)]">
+          <p class="copy mt-3 flex-1 text-[0.95rem] leading-relaxed text-[var(--text)]">
             I'm <em>Tejas</em>, a full stack engineer passionate about <em>Rust backends</em>, <em>blockchain</em> and <em>clean interfaces</em>. I build complete products end to end, with Claude as my first mate.
           </p>
           <button type="button" data-open="about" class="arrow-btn mt-3 self-end" aria-label="More about me"><Icon name="arrow-up-right" class="size-4" /></button>
@@ -93,7 +101,7 @@ const equity = candles.map((c, i) => `${i ? 'L' : 'M'} ${c.x + 2} ${y(c.close) -
           <div class="relative flex h-full flex-col justify-end p-4">
             <h2 class="text-lg font-bold tracking-wide text-white uppercase">Project</h2>
             <div class="flex items-end justify-between gap-3">
-              <p class="hand text-[1.05rem] leading-tight text-white/85">{featured.name}: Rust engine, Tauri app, full web UI.</p>
+              <p class="copy text-sm leading-snug text-white/85">{featured.name}: Rust engine, Tauri app, full web UI.</p>
               <button type="button" data-open="projects" class="arrow-btn shrink-0" aria-label="See all projects"><Icon name="arrow-up-right" class="size-4" /></button>
             </div>
           </div>
@@ -123,8 +131,40 @@ const equity = candles.map((c, i) => `${i ? 'L' : 'M'} ${c.x + 2} ${y(c.close) -
 
         <!-- Currently -->
         <div data-reveal style="--i:1" class="area-learn relative self-start">
-          <p class="card hand px-4 py-1.5 text-center text-lg text-[var(--text)]">Currently Building <em>{featured.name}</em></p>
+          <p class="card copy px-4 py-2.5 text-center text-sm font-medium text-[var(--text)]">Currently Building <em>{featured.name}</em></p>
         </div>
+
+        <!-- Polkadex (current role) -->
+        <section data-reveal style="--i:1" class="area-dex card group relative overflow-hidden">
+          <img src={dex.image} alt={dex.imageAlt} width="1600" height="975" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-top" />
+          <div class="shade absolute inset-0"></div>
+          <div class="relative flex h-full flex-col justify-end p-4">
+            <div class="flex items-end justify-between gap-3">
+              <div>
+                <p class="text-xs font-medium tracking-wide text-[var(--accent)] uppercase">{dex.context}</p>
+                <h2 class="mt-0.5 text-lg font-bold text-white">{dex.name}</h2>
+                <p class="copy text-sm text-white/85">{dex.tagline}</p>
+              </div>
+              <a href="/projects/polkadex" class="arrow-btn card-link shrink-0" aria-label={`Read about ${dex.name}`}><Icon name="arrow-up-right" class="size-4" /></a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Face recognition (SAIG internship) -->
+        <section data-reveal style="--i:2" class="area-saig card group relative overflow-hidden">
+          <img src={faceRec.image} alt={faceRec.imageAlt} width="1400" height="781" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
+          <div class="shade absolute inset-0"></div>
+          <div class="relative flex h-full flex-col justify-end p-4">
+            <div class="flex items-end justify-between gap-3">
+              <div>
+                <p class="text-xs font-medium tracking-wide text-[var(--accent)] uppercase">{faceRec.context}</p>
+                <h2 class="mt-0.5 text-lg font-bold text-white">{faceRec.name}</h2>
+                <p class="copy text-sm text-white/85">GoPro feed + one-shot learning, recognising people live.</p>
+              </div>
+              <a href="/projects/face-recognition" class="arrow-btn card-link shrink-0" aria-label={`Read about ${faceRec.name}`}><Icon name="arrow-up-right" class="size-4" /></a>
+            </div>
+          </div>
+        </section>
 
       </div>
     </div>
@@ -197,45 +237,26 @@ const equity = candles.map((c, i) => `${i ? 'L' : 'M'} ${c.x + 2} ${y(c.close) -
 </script>
 
 <style>
-  .home {
-    --bg: #1c1c1c; --card: #2a2a2a; --card-2: #333; --line: rgb(255 255 255 / 0.07);
-    --text: #ececec; --muted: #9b9b9b; --accent: #f5a623;
-    --color-fg: var(--text); /* near-black brand logos render in the text color */
-    color-scheme: dark;
-    color: var(--text);
-    background-color: var(--bg);
-    /* faint code doodles */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg fill='%23ffffff' fill-opacity='0.035' font-family='monospace' font-size='22' font-weight='700'%3E%3Ctext x='12' y='34' transform='rotate(-12 12 34)'%3E%26lt;/%26gt;%3C/text%3E%3Ctext x='130' y='60'%3E%7B %7D%3C/text%3E%3Ctext x='60' y='120' transform='rotate(10 60 120)'%3E=%26gt;%3C/text%3E%3Ctext x='160' y='150'%3E;%3C/text%3E%3Ctext x='20' y='190'%3E( )%3C/text%3E%3Ctext x='110' y='200' transform='rotate(-8 110 200)'%3E%23%3C/text%3E%3C/g%3E%3C/svg%3E");
-    transition: background-color 0.4s, color 0.4s;
-  }
-  .home[data-mode=light] {
-    --bg: #f2efe8; --card: #ffffff; --card-2: #f4f1ea; --line: rgb(0 0 0 / 0.08);
-    --text: #1d1d1d; --muted: #666; --accent: #e08a00;
-    color-scheme: light;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cg fill='%23000000' fill-opacity='0.045' font-family='monospace' font-size='22' font-weight='700'%3E%3Ctext x='12' y='34' transform='rotate(-12 12 34)'%3E%26lt;/%26gt;%3C/text%3E%3Ctext x='130' y='60'%3E%7B %7D%3C/text%3E%3Ctext x='60' y='120' transform='rotate(10 60 120)'%3E=%26gt;%3C/text%3E%3Ctext x='160' y='150'%3E;%3C/text%3E%3Ctext x='20' y='190'%3E( )%3C/text%3E%3Ctext x='110' y='200' transform='rotate(-8 110 200)'%3E%23%3C/text%3E%3C/g%3E%3C/svg%3E");
-  }
-  .icon-moon { display: none; }
-  .home[data-mode=light] .icon-sun { display: none; }
-  .home[data-mode=light] .icon-moon { display: block; }
 
   /* Layout: mobile stacks; desktop is a 4-column cluster. */
-  .cluster { display: grid; gap: 0.9rem; grid-template-columns: 1fr auto; grid-template-areas: 'logo mode' 'hero hero' 'contact contact' 'used used' 'about about' 'project project' 'stack stack' 'gallery gallery' 'learn learn'; }
+  .cluster { display: grid; gap: 0.9rem; grid-template-columns: 1fr auto; grid-template-areas: 'logo mode' 'hero hero' 'years years' 'contact contact' 'used used' 'about about' 'project project' 'dex dex' 'saig saig' 'stack stack' 'gallery gallery' 'learn learn'; }
   @media (min-width: 768px) {
     .cluster {
       grid-template-columns: repeat(4, minmax(0, 1fr));
       grid-template-areas:
         'logo  logo    logo   mode'
         'hero  hero    hero   contact'
-        '.     .       used   contact'
+        'years years   used   contact'
         'about project stack  gallery'
-        'learn .       .      gallery';
+        'learn .       .      gallery'
+        'dex   dex     saig   saig';
     }
     .area-about, .area-project { min-height: 17rem; }
     .area-gallery { min-height: 21rem; }
   }
   .area-logo { grid-area: logo; } .area-mode { grid-area: mode; } .area-hero { grid-area: hero; } .area-contact { grid-area: contact; }
   .area-used { grid-area: used; } .area-about { grid-area: about; } .area-project { grid-area: project; } .area-stack { grid-area: stack; }
-  .area-gallery { grid-area: gallery; } .area-learn { grid-area: learn; }
+  .area-gallery { grid-area: gallery; } .area-learn { grid-area: learn; } .area-years { grid-area: years; } .area-saig { grid-area: saig; min-height: 15rem; } .area-dex { grid-area: dex; min-height: 15rem; }
   @media (max-width: 767px) { .area-project { min-height: 15rem; } .area-gallery { min-height: 22rem; } }
 
   /* Cards */
@@ -248,8 +269,7 @@ const equity = candles.map((c, i) => `${i ? 'L' : 'M'} ${c.x + 2} ${y(c.close) -
   }
   .card:hover { transform: translateY(-4px); box-shadow: 0 26px 50px -24px rgb(0 0 0 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.05); }
   .label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  .hand { font-family: 'Caveat', cursive; font-weight: 600; }
-  .hand em { font-style: normal; color: var(--accent); }
+  .copy em { font-style: normal; font-weight: 600; color: var(--accent); }
 
   .icon-tile { display: grid; place-items: center; aspect-ratio: 1; border-radius: 0.7rem; background: var(--card-2); color: var(--text); transition: color 0.2s, transform 0.3s var(--ease-bounce); }
   .icon-tile:hover { color: var(--accent); transform: translateY(-2px); }
@@ -285,5 +305,9 @@ const equity = candles.map((c, i) => `${i ? 'L' : 'M'} ${c.x + 2} ${y(c.close) -
   .modal-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.4rem; background: var(--card); border-bottom: 1px solid var(--line); }
   .modal-head h2 { font-size: 1.25rem; font-weight: 800; color: var(--accent); }
   .modal-body { padding: 1.4rem; }
+  /* Whole project card is clickable through its arrow link. */
+  .card-link::after { content: ''; position: absolute; inset: 0; }
+
+
   .close { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 9999px; background: var(--card-2); color: var(--text); }
 </style>
