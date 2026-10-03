@@ -14,10 +14,16 @@ const faceRec = projects.find(p => p.id === 'face-recognition');
 const trans = projects.find(p => p.id === 'multilingual-translation');
 const pipe = projects.find(p => p.id === 'data-pipeline');
 const tru = projects.find(p => p.id === 'student-marketplace');
-const dex = projects.find(p => p.id === 'polkadex');
+const dex = projects.find(p => p.id === 'decentralized-exchange');
 const brandName = slug => si[`si${slug[0].toUpperCase()}${slug.slice(1)}`].title.replace('Parity ', '');
 const mostUsed = ['rust', 'tauri', 'typescript', 'svelte'];
-const stack = techGrid.slice(0, 9);
+const stack = techGrid.slice(0, 24);
+// Anime: official posters, shown as fan art with credits. They crossfade every 2 seconds.
+const anime = [
+  { id: 'one-piece', title: 'One Piece', credit: '© Eiichiro Oda / Shueisha, Toei Animation' },
+  { id: 'solo-leveling', title: 'Solo Leveling', credit: '© Chugong, DUBU (REDICE STUDIO) / D&C MEDIA' },
+  { id: 'apothecary-diaries', title: 'The Apothecary Diaries', credit: '© Natsu Hyuuga / Shufunotomo, Square Enix' },
+];
 ---
 <Base title={`${site.name}, ${site.title}`} bare>
   <div class="home min-h-[100dvh]" data-mode="dark">
@@ -95,8 +101,8 @@ const stack = techGrid.slice(0, 9);
             <h2 class="label">Tech Stack</h2>
             <button type="button" data-open="skills" class="arrow-btn size-7" aria-label="All skills"><Icon name="arrow-up-right" class="size-3.5" /></button>
           </div>
-          <ul class="mt-4 grid grid-cols-3 justify-items-center gap-x-3 gap-y-4">
-            {stack.map(t => <li data-roll title={brandName(t)} class="tech"><BrandIcon slug={t} class="size-7" /></li>)}
+          <ul class="tech-grid mt-4 grid grid-cols-4 justify-items-center gap-x-2 gap-y-3.5">
+            {stack.map(t => <li data-roll title={brandName(t)} class="tech"><BrandIcon slug={t} class="size-6" /></li>)}
           </ul>
         </section>
 
@@ -116,9 +122,9 @@ const stack = techGrid.slice(0, 9);
           <p class="card copy px-4 py-2.5 text-center text-sm font-medium text-[var(--text)]">Currently Building <em>{featured.name}</em></p>
         </div>
 
-        <!-- Polkadex (current role) -->
+        <!-- Decentralized exchange (current role) -->
         <section data-reveal style="--i:1" class="area-dex card group relative overflow-hidden">
-          <img src={dex.image} alt={dex.imageAlt} width="1600" height="975" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-top" />
+          <img src={dex.image} alt={dex.imageAlt} width="1600" height="900" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-[25%_center]" />
           <div class="shade absolute inset-0"></div>
           <div class="relative flex h-full flex-col justify-end p-4">
             <div class="flex items-end justify-between gap-3">
@@ -127,7 +133,7 @@ const stack = techGrid.slice(0, 9);
                 <h2 class="mt-0.5 text-lg font-bold text-white">{dex.name}</h2>
                 <p class="copy text-sm text-white/85">{dex.tagline}</p>
               </div>
-              <a href="/projects/polkadex" class="arrow-btn card-link shrink-0" aria-label={`Read about ${dex.name}`}><Icon name="arrow-up-right" class="size-4" /></a>
+              <a href="/projects/decentralized-exchange" class="arrow-btn card-link shrink-0" aria-label={`Read about ${dex.name}`}><Icon name="arrow-up-right" class="size-4" /></a>
             </div>
           </div>
         </section>
@@ -162,13 +168,29 @@ const stack = techGrid.slice(0, 9);
         </section>
 
         <!-- Student work marketplace (Trumio) -->
-        <section data-reveal style="--i:1" class="area-tru card relative flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-4">
-          <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <p class="text-xs font-medium tracking-wide text-[var(--accent)] uppercase">{tru.context}</p>
-            <h2 class="text-base font-bold">{tru.name}</h2>
-            <p class="copy text-sm text-[var(--muted)]">{tru.tagline}</p>
+        <section data-reveal style="--i:1" class="area-tru card group relative overflow-hidden">
+          <img src="/projects/student-marketplace-cover.svg" alt="" width="1600" height="900" loading="lazy" class="absolute inset-0 h-full w-full object-cover object-top" />
+          <div class="shade absolute inset-0"></div>
+          <div class="relative flex h-full flex-col justify-end p-4">
+            <div class="flex items-end justify-between gap-3">
+              <div>
+                <p class="text-xs font-medium tracking-wide text-[var(--accent)] uppercase">{tru.context}</p>
+                <h2 class="mt-0.5 text-lg font-bold text-white">{tru.name}</h2>
+                <p class="copy text-sm text-white/85">{tru.tagline}</p>
+              </div>
+              <a href="/projects/student-marketplace" class="arrow-btn card-link shrink-0" aria-label={`Read about ${tru.name}`}><Icon name="arrow-up-right" class="size-4" /></a>
+            </div>
           </div>
-          <a href="/projects/student-marketplace" class="arrow-btn card-link shrink-0" aria-label={`Read about ${tru.name}`}><Icon name="arrow-up-right" class="size-4" /></a>
+        </section>
+
+        <!-- Favorite anime: posters crossfade every 2 seconds. -->
+        <section data-reveal style="--i:2" class="area-anime card relative overflow-hidden" aria-label="Favorite anime">
+          {anime.map((a, i) => (
+            <img src={`/anime/${a.id}.webp`} alt={`${a.title} poster`} title={a.credit} width="800" height="1200" loading="lazy"
+              class:list={['anime-poster absolute inset-0 h-full w-full object-cover object-top', i === 0 && 'is-on']} />
+          ))}
+          <div class="anime-shade absolute inset-0"></div>
+          <h2 class="relative p-4 text-lg font-bold text-white">Favorite anime</h2>
         </section>
 
         <!-- Face recognition (SAIG internship) -->
@@ -241,12 +263,46 @@ const stack = techGrid.slice(0, 9);
     (document.getElementById(`dlg-${b.dataset.open}`) as HTMLDialogElement).showModal();
   }));
   document.querySelectorAll<HTMLDialogElement>('dialog.modal').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+
+  // Favorite anime: next poster every 2 seconds.
+  {
+    const posters = [...document.querySelectorAll<HTMLElement>('.anime-poster')];
+    let at = 0;
+    if (posters.length > 1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
+      posters[at].classList.remove('is-on');
+      at = (at + 1) % posters.length;
+      posters[at].classList.add('is-on');
+    }, 2000);
+  }
+
+  // Tech stack: every 3 seconds the logos swap places, gliding to their new spots (FLIP animation).
+  {
+    const grid = document.querySelector<HTMLElement>('.tech-grid');
+    if (grid && !matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
+      if (grid.matches(':hover')) return;
+      const items = [...grid.children] as HTMLElement[];
+      const before = new Map(items.map(el => [el, el.getBoundingClientRect()]));
+      for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; }
+      items.forEach(el => el.removeAttribute('data-roll')); // moving an element would replay its entrance animation
+      grid.append(...items);
+      for (const el of items) {
+        const a = before.get(el)!, b = el.getBoundingClientRect();
+        el.style.transition = 'none';
+        el.style.transform = `translate(${a.left - b.left}px, ${a.top - b.top}px)`;
+      }
+      grid.getBoundingClientRect(); // commit the starting positions
+      for (const el of items) {
+        el.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+        el.style.transform = '';
+      }
+    }, 3000);
+  }
 </script>
 
 <style>
 
   /* Layout: mobile stacks; desktop is a 4-column cluster. */
-  .cluster { display: grid; gap: 0.9rem; grid-template-columns: 1fr auto; grid-template-areas: 'logo mode' 'hero hero' 'years years' 'contact contact' 'used used' 'about about' 'project project' 'dex dex' 'trans trans' 'pipe pipe' 'saig saig' 'tru tru' 'stack stack' 'gallery gallery' 'learn learn'; }
+  .cluster { display: grid; gap: 0.9rem; grid-template-columns: 1fr auto; grid-template-areas: 'logo mode' 'hero hero' 'years years' 'contact contact' 'used used' 'about about' 'project project' 'dex dex' 'trans trans' 'pipe pipe' 'saig saig' 'tru tru' 'anime anime' 'stack stack' 'gallery gallery' 'learn learn'; }
   @media (min-width: 768px) {
     .cluster {
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -258,15 +314,16 @@ const stack = techGrid.slice(0, 9);
         'learn trans   trans  gallery'
         'pipe  trans   trans  gallery'
         'dex   dex     saig   saig'
-        'tru   tru     tru    tru';
+        'tru   tru     tru    anime';
     }
     .area-about, .area-project { min-height: 17rem; }
     .area-gallery { min-height: 21rem; }
   }
   .area-logo { grid-area: logo; } .area-mode { grid-area: mode; } .area-hero { grid-area: hero; } .area-contact { grid-area: contact; }
   .area-used { grid-area: used; } .area-about { grid-area: about; } .area-project { grid-area: project; } .area-stack { grid-area: stack; }
-  .area-gallery { grid-area: gallery; } .area-learn { grid-area: learn; } .area-years { grid-area: years; } .area-saig { grid-area: saig; min-height: 15rem; } .area-dex { grid-area: dex; min-height: 15rem; } .area-trans { grid-area: trans; min-height: 15rem; } .area-pipe { grid-area: pipe; position: relative; } .area-tru { grid-area: tru; }
+  .area-gallery { grid-area: gallery; } .area-learn { grid-area: learn; } .area-years { grid-area: years; } .area-saig { grid-area: saig; min-height: 15rem; } .area-dex { grid-area: dex; min-height: 15rem; } .area-trans { grid-area: trans; min-height: 15rem; } .area-pipe { grid-area: pipe; position: relative; } .area-tru { grid-area: tru; min-height: 15rem; } .area-anime { grid-area: anime; min-height: 15rem; }
   /* The dashboard screenshot is light, so this card needs a darker overlay for its text. */
+  .area-tru .shade { background: linear-gradient(to top, rgb(0 0 0 / 0.92), rgb(0 0 0 / 0.6) 55%, rgb(0 0 0 / 0.35)); }
   .area-trans .shade { background: linear-gradient(to top, rgb(0 0 0 / 0.9), rgb(0 0 0 / 0.55) 60%, rgb(0 0 0 / 0.4)); }
   @media (max-width: 767px) { .area-project { min-height: 15rem; } .area-gallery { min-height: 22rem; } }
 
@@ -290,8 +347,9 @@ const stack = techGrid.slice(0, 9);
   .direct:active { transform: scale(0.98); }
   .arrow-btn { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 9999px; background: var(--accent); color: #1c1c1c; transition: transform 0.4s var(--ease-bounce); }
   .arrow-btn:hover { transform: rotate(45deg) scale(1.1); }
-  .tech { transition: transform 0.4s var(--ease-bounce); }
-  .tech:hover { transform: translateY(-3px) scale(1.12); }
+  /* The li moves when the grid shuffles, so the hover effect lives on the icon inside it. */
+  .tech > :global(svg) { transition: transform 0.4s var(--ease-bounce); }
+  .tech:hover > :global(svg) { transform: translateY(-3px) scale(1.15); }
 
   /* Handwritten notes with drawn arrows */
   .note { font-family: 'Caveat', cursive; font-weight: 600; font-size: 1.15rem; color: var(--text); white-space: nowrap; }
@@ -322,4 +380,10 @@ const stack = techGrid.slice(0, 9);
 
 
   .close { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 9999px; background: var(--card-2); color: var(--text); }
+
+  /* Favorite anime: posters crossfade */
+  .anime-poster { opacity: 0; transition: opacity 0.8s ease; }
+  .anime-poster.is-on { opacity: 1; }
+  .anime-shade { background: linear-gradient(to bottom, rgb(0 0 0 / 0.6), transparent 40%); }
+  @media (prefers-reduced-motion: reduce) { .anime-poster { transition: none; } }
 </style>

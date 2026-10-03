@@ -51,14 +51,14 @@ export const featured = {
 
 export const projects = [
   {
-    id: 'polkadex',
-    name: 'Polkadex',
+    id: 'decentralized-exchange',
+    name: 'Decentralized exchange',
     context: 'Wow Internet Labz, July 2025 - now',
-    tagline: 'A decentralized exchange with a real orderbook, built on Substrate.',
-    desc: 'Polkadex is a Layer 1 blockchain built for trading: CEX-grade speed, a real orderbook, and users keep their own keys. I work on the orderbook and the blockchain node underneath it.',
+    tagline: 'Its own blockchain built for trading, with a real orderbook, on Substrate.',
+    desc: 'A Layer 1 blockchain built for trading: CEX-grade speed, a real orderbook, and users keep their own keys. I work on the orderbook and the blockchain node underneath it.',
     stack: ['Rust', 'Substrate', 'ISMP / Hyperbridge', 'GraphQL', 'PostgreSQL', 'TimescaleDB', 'AWS'],
-    image: '/projects/polkadex.webp',
-    imageAlt: 'The Polkadex Orderbook trading screen: price chart, live orderbook, recent trades and the buy/sell panel',
+    image: '/projects/dex-cover.svg',
+    imageAlt: 'An orderbook of buy and sell orders, matched and then settled on the chain',
   },
   {
     name: 'Decentralized work marketplace',
@@ -120,5 +120,10 @@ export const education = [
 
 export const interests = ['Anime', 'Mythology', 'History', 'Reading'];
 
-// Tech logos, as simple-icons slugs (see BrandIcon.astro). The first 9 show on the homepage.
-export const techGrid = ['rust', 'tauri', 'typescript', 'svelte', 'astro', 'tailwindcss', 'python', 'fastapi', 'docker', 'apachekafka', 'mongodb', 'paritysubstrate'];
+// Tech logos, as simple-icons slugs (see BrandIcon.astro). The first 24 show on the homepage.
+export const techGrid = [
+  'rust', 'typescript', 'svelte', 'react', 'python', 'fastapi', 'tauri', 'astro',
+  'tailwindcss', 'postgresql', 'mongodb', 'docker', 'apachekafka', 'graphql', 'git', 'linux',
+  'javascript', 'flask', 'mysql', 'sqlite', 'duckdb', 'timescale', 'pandas', 'numpy',
+  'streamlit', 'githubactions', 'paritysubstrate',
+];

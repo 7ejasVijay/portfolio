@@ -1,23 +1,22 @@
 ---
-title: Polkadex
+title: Decentralized exchange
 context: Wow Internet Labz, July 2025 to now
 tagline: Keeping a decentralized exchange's blockchain alive, upgraded and secure, from the orderbook up to the node.
 period: July 2025 to now
 cover:
-  src: /projects/polkadex.webp
-  alt: The Polkadex Orderbook trading screen, with the price chart, live orderbook, recent trades and buy/sell panel
-  caption: The Polkadex Orderbook, the trading app that runs on top of the chain.
+  src: /projects/dex-cover.svg
+  alt: An orderbook of buy and sell orders, matched at exchange speed and then settled in blocks on the chain
+  caption: Orders matched at exchange speed, then settled on the chain.
 stats:
   - { value: '1,000', label: 'errors worked through in the node upgrade' }
-  - { value: '68', label: 'commits to the Polkadex node' }
+  - { value: '68', label: "commits to the exchange's node" }
   - { value: '8', label: 'pull requests' }
 stack: [Rust, Substrate, Hyperbridge, ISMP, Try runtime, GraphQL, PostgreSQL, TimescaleDB, AWS, GitHub Actions]
 links:
-  - { label: Polkadex node on GitHub, href: 'https://github.com/Polkadex-Substrate/polkadex-node' }
-  - { label: polkadex.ee, href: 'https://polkadex.ee/' }
+  - { label: The node's code on GitHub, href: 'https://github.com/Polkadex-Substrate/polkadex-node' }
   - { label: hyperbridge.network, href: 'https://hyperbridge.network/' }
 activity:
-  title: My commits to the Polkadex node, per month
+  title: My commits to the exchange's node, per month
   months:
     - ['2025-09', 5]
     - ['2025-10', 17]
@@ -34,7 +33,7 @@ activity:
     - ['2026-09', 1]
 ---
 
-Polkadex is a decentralized exchange built as its own blockchain on Substrate. It promises the speed of a centralized exchange with a real orderbook, while users keep custody of their own keys. I've worked on it at Wow Internet Labz since July 2025, on the blockchain node itself and on the orderbook that runs on top of it.
+This is a decentralized exchange built as its own blockchain on Substrate. It promises the speed of a centralized exchange with a real orderbook, while users keep custody of their own keys. I've worked on it at Wow Internet Labz since July 2025, on the blockchain node itself and on the orderbook that runs on top of it.
 
 This is that story, told in order from the first day.
 
@@ -66,7 +65,7 @@ The rest of the month went into stability. I added memory tracking to the RPC se
 
 Moving assets between blockchains is where a lot of exchanges get hacked, usually because a bridge trusts a small group of relayers or a multisig to say "yes, this deposit really happened". [Hyperbridge](https://hyperbridge.network/) takes a different approach: it's infrastructure for connecting blockchains that verifies messages between them with cryptographic proofs, using the ISMP protocol, so nobody has to be trusted in the middle.
 
-Polkadex planned to run its deposits and withdrawals through it, and I configured the runtime to talk to Hyperbridge: the ISMP settings, the host state machine and coprocessor, the aggregator URL and the network's SS58 address prefix.
+The exchange planned to run its deposits and withdrawals through it, and I configured the runtime to talk to Hyperbridge: the ISMP settings, the host state machine and coprocessor, the aggregator URL and the network's SS58 address prefix.
 
 <figure>
   <img src="/projects/hyperbridge.webp" alt="The Hyperbridge homepage: Interoperability done right, with chain logos connected through the Hyperbridge core" loading="lazy" />
@@ -74,12 +73,6 @@ Polkadex planned to run its deposits and withdrawals through it, and I configure
 </figure>
 
 Alongside that I reorganized the runtime's pallets, fixed how quote prices were calculated for the native token, and temporarily switched off two pallets that clashed over a 256 bit integer type. It all merged as #5 on 20 February.
-
-<figure class="pair">
-  <img src="/projects/polkadex-bridge.webp" alt="The bridge screen, moving ETH from the Sepolia testnet to the Polkadex testnet" loading="lazy" />
-  <img src="/projects/polkadex-hyperbridge.webp" alt="Polkadex's section on transfers between chains: verified end to end, with minimal trust, powered by Hyperbridge" loading="lazy" />
-  <figcaption>Left: the bridge, moving assets from Ethereum (Sepolia testnet) onto Polkadex. Right: how Polkadex describes Hyperbridge transfers.</figcaption>
-</figure>
 
 <p class="kicker">April 2026</p>
 
@@ -93,7 +86,7 @@ I also removed the parachain (Cumulus) crates the mainnet node no longer needed,
 
 ## High frequency trading
 
-The exchange moved to a new high frequency trading (HFT) pallet. I integrated it and removed the token gateway and Hyperbridge pallets it replaced (#6, merged 4 June), then wrote a migration to clear out stale ISMP requests. In July I fixed the HFT pallet's decimal conversion, so token amounts scale correctly in both directions between Ethereum's ERC20 token format and Polkadex's own.
+The exchange moved to a new high frequency trading (HFT) pallet. I integrated it and removed the token gateway and Hyperbridge pallets it replaced (#6, merged 4 June), then wrote a migration to clear out stale ISMP requests. In July I fixed the HFT pallet's decimal conversion, so token amounts scale correctly in both directions between Ethereum's ERC20 token format and the exchange's own.
 
 <p class="kicker">August 2026</p>
 
@@ -115,18 +108,9 @@ I removed it again and added a guarded migration that clears the whole storage p
 
 In **#15** (in review) I made the node easier to run: `.deb` and `.rpm` packages that install it as a proper system service, and a release pipeline where pushing a version tag builds the binary and both packages, publishes checksums and opens a draft release for a human to approve. Every GitHub Action is pinned to an exact commit, with the least privilege it needs.
 
-<figure>
-  <img src="/projects/polkadex-prs.webp" alt="My eight pull requests on the Polkadex node repository on GitHub" loading="lazy" />
-  <figcaption>My pull requests on the Polkadex node, from the first node upgrade to the mainnet fixes.</figcaption>
-</figure>
-
 <p class="kicker">Alongside the node</p>
 
 ## The orderbook
 
-The orderbook is the part traders actually feel: it matches buy and sell orders at exchange speed and settles them on the chain. It isn't one program but several services working together, and I got the whole system running end to end. Around it I built Rust backend components and GraphQL APIs for orderbook and transaction data, backed by PostgreSQL with TimescaleDB. I also migrated the core storage from Amazon Timestream to TimescaleDB and replaced AWS AppSync and Lambda with a Rust backend, which cut infrastructure costs without losing performance. That code lives in a private repository, which is why this story follows the public node.
+The orderbook is the part traders actually feel: it matches buy and sell orders at exchange speed and settles them on the chain. It isn't one program but several services working together, and I got the whole system running end to end. Around it I built Rust backend components and GraphQL APIs for orderbook and transaction data, backed by PostgreSQL with TimescaleDB. I also migrated the core storage from Amazon Timestream to TimescaleDB and replaced AWS AppSync and Lambda with a Rust backend, which cut infrastructure costs without losing performance. That code lives in a private repository.
 
-<figure>
-  <img src="/projects/polkadex-orderbook.webp" alt="A live orderbook showing asks in red, bids in green and the spread between them" loading="lazy" />
-  <figcaption>The orderbook: asks above, bids below, matched off the chain and settled on it.</figcaption>
-</figure>
