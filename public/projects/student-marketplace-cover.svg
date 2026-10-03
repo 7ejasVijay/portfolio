@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" font-family="Geist, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.04" />
+    </pattern>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#f5a623" />
+    </marker>
+  </defs>
+  <rect width="1600" height="900" fill="#161616" />
+  <rect width="1600" height="900" fill="url(#grid)" />
+
+  <!-- companies -->
+  <text x="230" y="240" text-anchor="middle" fill="#9b9b9b" font-size="22" font-weight="600" letter-spacing="4">COMPANIES</text>
+  <g>
+    <rect x="80" y="280" width="300" height="96" rx="16" fill="#2a2a2a" stroke="#ffffff" stroke-opacity="0.08" />
+    <text x="110" y="322" fill="#ececec" font-size="26" font-weight="700">Post real projects</text>
+    <text x="110" y="356" fill="#9b9b9b" font-size="19">work they actually need</text>
+    <rect x="80" y="400" width="300" height="96" rx="16" fill="#2a2a2a" stroke="#ffffff" stroke-opacity="0.08" />
+    <text x="110" y="442" fill="#ececec" font-size="26" font-weight="700">Get results</text>
+    <text x="110" y="476" fill="#9b9b9b" font-size="19">delivered by students</text>
+  </g>
+
+  <!-- marketplace -->
+  <g>
+    <rect x="560" y="250" width="480" height="300" rx="24" fill="#f5a623" fill-opacity="0.1" stroke="#f5a623" stroke-width="2" />
+    <text x="800" y="340" text-anchor="middle" fill="#ececec" font-size="44" font-weight="800">Trumio</text>
+    <text x="800" y="380" text-anchor="middle" fill="#9b9b9b" font-size="22">student work marketplace</text>
+    <rect x="660" y="425" width="280" height="70" rx="35" fill="#2a2a2a" stroke="#f5a623" stroke-opacity="0.6" />
+    <text x="800" y="469" text-anchor="middle" fill="#f5a623" font-size="24" font-weight="700" font-family="'Geist Mono', 'Courier New', monospace">Python · FastAPI</text>
+  </g>
+  <path d="M380 328 C 470 328 470 360 550 360" fill="none" stroke="#f5a623" stroke-width="3" marker-end="url(#arrow)" />
+  <path d="M560 440 C 470 440 470 448 390 448" fill="none" stroke="#f5a623" stroke-width="3" marker-end="url(#arrow)" />
+
+  <!-- students -->
+  <text x="1370" y="240" text-anchor="middle" fill="#9b9b9b" font-size="22" font-weight="600" letter-spacing="4">STUDENTS</text>
+  <g>
+    <rect x="1220" y="270" width="300" height="72" rx="16" fill="#2a2a2a" stroke="#ffffff" stroke-opacity="0.08" />
+    <text x="1250" y="316" fill="#ececec" font-size="26" font-weight="700">India</text>
+    <rect x="1220" y="364" width="300" height="72" rx="16" fill="#2a2a2a" stroke="#ffffff" stroke-opacity="0.08" />
+    <text x="1250" y="410" fill="#ececec" font-size="26" font-weight="700">USA</text>
+    <rect x="1220" y="458" width="300" height="72" rx="16" fill="#2a2a2a" stroke="#ffffff" stroke-opacity="0.08" />
+    <text x="1250" y="504" fill="#ececec" font-size="26" font-weight="700">Canada</text>
+  </g>
+  <path d="M1040 400 H 1210" fill="none" stroke="#f5a623" stroke-width="3" marker-end="url(#arrow)" />
+
+  <text x="800" y="720" text-anchor="middle" fill="#f5a623" font-size="56" font-weight="800">Learn the industry by working in it</text>
+  <text x="800" y="770" text-anchor="middle" fill="#9b9b9b" font-size="24">real work for real companies, while still in college</text>
+</svg>

@@ -6,7 +6,7 @@ export const site = {
   description:
     'Tejas Gaware, full stack engineer. Rust backends, Tauri desktop apps, blockchain infrastructure and the interfaces on top. Based in Mumbai.',
   location: 'Mumbai, India',
-  email: '7ejas.vijay@gmail.com',
+  email: 'tjsoft92@gmail.com',
   github: 'https://github.com/7ejasVijay',
   linkedin: 'https://www.linkedin.com/in/tejas-gaware-1430a3190',
   resume: null, // e.g. '/resume.pdf': drop the file in public/ and set this
@@ -44,14 +44,9 @@ export const experience = [
 
 // The first project is featured. The rest fill the bento grid in order.
 export const featured = {
-  status: 'Personal project, in progress',
   name: 'Backtest Engine',
-  // TODO: confirm frontend framework + charting lib, add a benchmark number.
-  desc: 'A desktop app for backtesting trading strategies. A Rust engine runs fast, deterministic simulations; a full web frontend handles strategy setup, result charts and trade logs. Shipped as a native app with Tauri.',
-  stack: ['Rust', 'Tauri', 'TypeScript'],
-  metric: null, // e.g. { value: '120 ms', label: 'to backtest 1M candles' }
-  links: [], // e.g. [{ label: 'Source', href: '...' }, { label: 'Download', href: '...' }]
-  media: null, // e.g. '/backtest.webm' or '/backtest.png' in public/
+  desc: 'A backtesting app for the Indian stock market: a visual strategy builder, a Rust backtest engine and live scanner, and years of market data synced from your own broker. Built with SvelteKit and Tauri.',
+  stack: ['Rust', 'Tauri', 'SvelteKit', 'DuckDB'],
 };
 
 export const projects = [
@@ -71,19 +66,30 @@ export const projects = [
     stack: ['Substrate', 'Rust'],
   },
   {
+    id: 'data-pipeline',
     name: 'Automated data pipeline',
-    desc: 'Standardization and validation for marketing and POS data. Delivery got 5x faster, rolled out in 30+ countries.',
-    stack: ['Python'],
+    context: 'Wow Internet Labz, 2021',
+    tagline: 'Marketing and POS data, standardized and validated for the ML team. Rolled out across 30+ countries.',
+    desc: 'Standardization and validation pipelines for marketing and POS data, driven by one JSON config and run from a Streamlit app. Delivery got 5x faster, rolled out in 30+ countries.',
+    stack: ['Python', 'pandas', 'NumPy', 'Matplotlib', 'Streamlit'],
   },
   {
+    id: 'multilingual-translation',
     name: 'Multilingual lecture translation',
-    desc: 'AI pipeline and dashboard translating English video lectures into Hindi, Telugu, Marathi and Bengali. Handles sessions over 2 hours.',
-    stack: ['Python', 'AI', 'Dashboard'],
+    context: 'Wow Internet Labz, 2024',
+    tagline: '2,816 lectures turned into Hindi, Marathi, Bengali and Telugu.',
+    desc: 'A pipeline of seven Kafka services that translates English video lectures into Hindi, Marathi, Bengali and Telugu, with a dashboard to monitor it. Handles lectures of around two hours.',
+    stack: ['Python', 'Kafka', 'Docker', 'Whisper', 'GPT'],
+    image: '/projects/translation-dashboard.webp',
+    imageAlt: 'The pipeline dashboard: processing time by stage, storage, and lectures available in each language',
   },
   {
+    id: 'student-marketplace',
     name: 'Student work marketplace',
-    desc: 'A Fiverr-style platform matching students in India, the US and Canada with industry projects.',
-    stack: ['Web'],
+    context: 'Trumio',
+    tagline: 'Real industry work for students in India, the USA and Canada, while still in college.',
+    desc: 'Trumio: a Fiverr style marketplace connecting students in India, the USA and Canada with real industry projects. I worked on the Python and FastAPI backend.',
+    stack: ['Python', 'FastAPI'],
   },
   {
     id: 'face-recognition',
