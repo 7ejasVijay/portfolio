@@ -24,8 +24,8 @@
   <!-- marketplace -->
   <g>
     <rect x="560" y="250" width="480" height="300" rx="24" fill="#f5a623" fill-opacity="0.1" stroke="#f5a623" stroke-width="2" />
-    <text x="800" y="340" text-anchor="middle" fill="#ececec" font-size="44" font-weight="800">Trumio</text>
-    <text x="800" y="380" text-anchor="middle" fill="#9b9b9b" font-size="22">student work marketplace</text>
+    <text x="800" y="340" text-anchor="middle" fill="#ececec" font-size="44" font-weight="800">Marketplace</text>
+    <text x="800" y="380" text-anchor="middle" fill="#9b9b9b" font-size="22">where companies meet students</text>
     <rect x="660" y="425" width="280" height="70" rx="35" fill="#2a2a2a" stroke="#f5a623" stroke-opacity="0.6" />
     <text x="800" y="469" text-anchor="middle" fill="#f5a623" font-size="24" font-weight="700" font-family="'Geist Mono', 'Courier New', monospace">Python · FastAPI</text>
   </g>

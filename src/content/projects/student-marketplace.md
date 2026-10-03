@@ -1,5 +1,5 @@
 ---
-title: Trumio, a student work marketplace
+title: Student work marketplace
 context: Backend engineering
 tagline: Letting students learn the industry before they graduate, by taking on real work from real companies while still in college.
 cover:
@@ -8,10 +8,10 @@ cover:
   caption: Companies on one side, students on the other, and the marketplace connecting them.
 stack: [Python, FastAPI, REST APIs]
 links:
-  - { label: trumio.ai, href: 'https://trumio.ai/' }
+  - { label: The platform today, href: 'https://trumio.ai/' }
 ---
 
-Most students meet the industry for the first time after they graduate. Trumio started from a simple idea: what if they met it while still in college, by doing real work for real companies, the way freelancers do on Fiverr or Upwork?
+Most students meet the industry for the first time after they graduate. The platform started from a simple idea: what if they met it while still in college, by doing real work for real companies, the way freelancers do on Fiverr or Upwork?
 
 I worked on the backend that powered it, in Python with FastAPI.
 
@@ -43,6 +43,6 @@ FastAPI suits that kind of product well. It's fast and asynchronous, so it handl
 
 ## Where the idea went
 
-Trumio has grown since. Today it describes itself as an experiential learning platform: people build skills through projects that mirror real work, with AI guidance and feedback from experts along the way. It partners with universities including IIT Kharagpur, IIT Bhubaneswar and Manipal University, and is based in San Jose, California.
+The platform has grown since. Today it describes itself as an experiential learning platform: people build skills through projects that mirror real work, with AI guidance and feedback from experts along the way. It partners with universities including IIT Kharagpur, IIT Bhubaneswar and Manipal University, and is based in San Jose, California.
 
 > The core idea never changed: you learn the industry best by working in it.

@@ -86,9 +86,9 @@ export const projects = [
   {
     id: 'student-marketplace',
     name: 'Student work marketplace',
-    context: 'Trumio',
+    context: 'Backend engineering',
     tagline: 'Real industry work for students in India, the USA and Canada, while still in college.',
-    desc: 'Trumio: a Fiverr style marketplace connecting students in India, the USA and Canada with real industry projects. I worked on the Python and FastAPI backend.',
+    desc: 'A Fiverr style marketplace connecting students in India, the USA and Canada with real industry projects. I worked on the Python and FastAPI backend.',
     stack: ['Python', 'FastAPI'],
   },
   {
